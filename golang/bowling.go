@@ -10,6 +10,7 @@ func (game *Game) score() int {
 	counter := 0
 
 	for i := 0; i < frames; i++ {
+		score++
 		counter++
 	}
 
