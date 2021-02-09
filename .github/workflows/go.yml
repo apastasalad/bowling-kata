@@ -15,7 +15,6 @@ jobs:
 
     - name: Set up Go
       uses: actions/setup-go@v2
-      with:
 
     - name: Test
       run: go test -v ./...
