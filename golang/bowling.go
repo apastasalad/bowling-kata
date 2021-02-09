@@ -8,9 +8,10 @@ type Game struct {
 func (game *Game) score() int {
 	score := 0
 	counter := 0
+	
+	
 
 	for i := 0; i < frames; i++ {
-		score++
 		counter++
 	}
 
@@ -18,4 +19,5 @@ func (game *Game) score() int {
 }
 
 func (game *Game) roll(pins int) {
+	
 }
