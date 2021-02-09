@@ -1,1 +1,1 @@
-# bad-bowling-kata
+# The Bowling Game
