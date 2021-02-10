@@ -35,14 +35,14 @@ func TestSpareInFirstRoll(t *testing.T) {
 	}
 }
 
-// Spare in last roll, one pin down in each other roll, (score = 18 + 10  = 28)
+// Spare in last frame, one pin down in each other roll, (score = 18 + 10  = 28)
 func TestSpareInlastRoll(t *testing.T) {
 	game := BowlingGame{}
 	LetsRoll(&game, 18, 1)
 	LetsRollASpare(&game)
 
 	if game.Score() != 28 {
-		t.Errorf("Spare in last roll, one pin down in each other roll, got: %d, want: %d.", game.Score(), 28)
+		t.Errorf("Spare in last frame, one pin down in each other roll, got: %d, want: %d.", game.Score(), 28)
 	}
 }
 
@@ -57,15 +57,14 @@ func TestStrikeInFirstRoll(t *testing.T) {
 	}
 }
 
-// Strike in last roll, one pin down in each other roll, (score = 18 + 11 + 1 = 30)
+// Strike in last frame, one pin down in each other roll, (score = 18 + 10 = 28)
 func TestStrikeInLastRoll(t *testing.T) {
 	game := BowlingGame{}
 	LetsRoll(&game, 18, 1)
 	LetsRollAStrike(&game)
-	LetsRoll(&game, 1, 1)
 
-	if game.Score() != 30 {
-		t.Errorf("Strike in last roll, one pin down in each other roll: %d, want: %d.", game.Score(), 30)
+	if game.Score() != 28 {
+		t.Errorf("Strike in last roll, one pin down in each other roll: %d, want: %d.", game.Score(), 28)
 	}
 }
 
