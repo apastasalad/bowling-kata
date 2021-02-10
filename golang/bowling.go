@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 const frames = 10
 
 type BowlingGame struct {
@@ -45,7 +43,6 @@ func (game *BowlingGame) Score() int {
 
 	// count the last roll if it's awarded
 	score += game.rolls[20]
-	fmt.Printf("%v, ", game.rolls)
 
 	return score
 }
