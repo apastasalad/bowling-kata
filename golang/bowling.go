@@ -20,10 +20,7 @@ func (game *BowlingGame) Score() int {
 	frameIndex := 0
 
 	for i := 0; i < frames; i++ {
-		if DidWeRollAFourBagger(game, frameIndex) {
-			score += AwardAFourBaggerBonus()
-			frameIndex += 2
-		} else if DidWeRollATurkey(game, frameIndex) {
+		if DidWeRollATurkey(game, frameIndex) {
 			score += AwardATurkeyBonus()
 			frameIndex += 2
 		} else if DidWeRollADouble(game, frameIndex) {
@@ -41,7 +38,7 @@ func (game *BowlingGame) Score() int {
 		}
 	}
 
-	// count the last roll if it's awarded
+	// count the last roll if it's available
 	score += game.rolls[20]
 
 	return score
@@ -77,16 +74,6 @@ func DidWeRollATurkey(game *BowlingGame, frameIndex int) bool {
 	status := false
 	if frameIndex < 16 {
 		status = game.rolls[frameIndex] == 10 && game.rolls[frameIndex+2] == 10 && game.rolls[frameIndex+4] == 10
-	}
-	return status
-}
-
-// Look at the frames and determine if a Four Bagger was rolled
-func DidWeRollAFourBagger(game *BowlingGame, frameIndex int) bool {
-
-	status := false
-	if frameIndex < 14 {
-		status = game.rolls[frameIndex] == 10 && game.rolls[frameIndex+2] == 10 && game.rolls[frameIndex+3] == 10
 	}
 	return status
 }
@@ -138,17 +125,10 @@ func AwardATurkeyBonus() int {
 	return turkeyBonus
 }
 
-//  30 point bonus
-func AwardAFourBaggerBonus() int {
-	fourBaggerBonus := 30
-	return fourBaggerBonus
-}
-
 // Knock down some pins
 func (game *BowlingGame) Roll(pins int) {
 	// Record the pins knocked down for this roll
 	// if we get a strike, record a 0 and move to the next frame
-
 	// record the first 9 frames differently to the final frame
 	if game.currentRolls < 19 {
 		game.rolls[game.currentRolls] = pins
