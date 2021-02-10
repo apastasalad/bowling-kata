@@ -46,7 +46,7 @@ func TestSpareInlastRoll(t *testing.T) {
 	}
 }
 
-//Strike in first roll, one pin down in each other roll, (score = 12 + 19 = 31)
+// Strike in first roll, one pin down in each other roll, (score = 12 + 19 = 31)
 func TestStrikeInFirstRoll(t *testing.T) {
 	game := BowlingGame{}
 	LetsRollAStrike(&game)
@@ -57,8 +57,18 @@ func TestStrikeInFirstRoll(t *testing.T) {
 	}
 }
 
-//Strike in first roll, one pin down in each other roll, (score = 10 + 1 + 1 + 18 = 30)
-//Strike in last roll, one pin down in each other roll, (score = 18 + 10 + 1 + 1 = 30)
+// Strike in last roll, one pin down in each other roll, (score = 18 + 11 + 1 = 30)
+func TestStrikeInLastRoll(t *testing.T) {
+	game := BowlingGame{}
+	LetsRoll(&game, 18, 1)
+	LetsRollAStrike(&game)
+	LetsRoll(&game, 1, 1)
+
+	if game.Score() != 30 {
+		t.Errorf("Strike in last roll, one pin down in each other roll: %d, want: %d.", game.Score(), 30)
+	}
+}
+
 //Golden game = all strikes (score = 300)
 
 // Roll the ball and knock down some pins

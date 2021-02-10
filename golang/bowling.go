@@ -58,9 +58,15 @@ func DidWeRollAStrike(game *BowlingGame, frameIndex int) bool {
 // 10 points + the number of pins you knock down in the entire next frame.
 func AwardAStrikeBonus(game *BowlingGame, frameIndex int) int {
 	strikeBonus := 10
-	if frameIndex < 19 {
+
+	// If the strike happens in the first 9 frames, count the next two rolls
+	// otherwise, count the bonus roll only
+	if frameIndex < 18 {
 		strikeBonus += game.rolls[frameIndex+2] + game.rolls[frameIndex+3]
+	} else if frameIndex >= 18 {
+		strikeBonus += game.rolls[frameIndex+1] + game.rolls[frameIndex+2]
 	}
+
 	return strikeBonus
 }
 
@@ -76,7 +82,7 @@ func AwardASpareBonus(game *BowlingGame, frameIndex int) int {
 // Knock down some pins
 func (game *BowlingGame) Roll(pins int) {
 	// Record the pins knocked down for this roll
-	// if we get a strike, move to the next frame
+	// if we get a strike, record a 0 and move to the next frame
 	game.rolls[game.currentRolls] = pins
 	if pins < 10 {
 		game.currentRolls++
