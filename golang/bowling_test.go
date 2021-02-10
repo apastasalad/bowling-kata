@@ -69,7 +69,49 @@ func TestStrikeInLastRoll(t *testing.T) {
 	}
 }
 
-//Golden game = all strikes (score = 300)
+// A Double Strike, then one pin down in each other roll, (score = 22 + 12 + 17 = 51)
+func TestTwoStrikes(t *testing.T) {
+	game := BowlingGame{}
+	LetsRollAStrike(&game)
+	LetsRollAStrike(&game)
+	LetsRoll(&game, 17, 1)
+
+	if game.Score() != 51 {
+		t.Errorf("TestTwoStrikes: %d, want: %d.", game.Score(), 51)
+	}
+}
+
+// A Turkey, then one pin down in each other roll, (score = 30 + 22 + 12 + 15 = 79)
+func TestTurkey(t *testing.T) {
+	game := BowlingGame{}
+	LetsRollAStrike(&game)
+	LetsRollAStrike(&game)
+	LetsRollAStrike(&game)
+	LetsRoll(&game, 15, 1)
+
+	if game.Score() != 79 {
+		t.Errorf("TestTurkey: %d, want: %d.", game.Score(), 79)
+	}
+}
+
+// A Four Bagger, then one pin down in each other roll, (score = 30 + 30 + 22 + 12 + 13 = 107)
+func TestFourBagger(t *testing.T) {
+	game := BowlingGame{}
+	LetsRollAStrike(&game)
+	LetsRollAStrike(&game)
+	LetsRollAStrike(&game)
+	LetsRollAStrike(&game)
+	LetsRoll(&game, 13, 1)
+
+	if game.Score() != 107 {
+		t.Errorf("TestFourBagger: %d, want: %d.", game.Score(), 107)
+	}
+}
+
+//  Strikes in each of the first nine frames, and three in the tenth (score = 300)
+func TestPerfectGame(t *testing.T) {
+	t.Fail()
+}
 
 // Roll the ball and knock down some pins
 func LetsRoll(g *BowlingGame, numberOfRolls, pinsKnockedDown int) {
