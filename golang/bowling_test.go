@@ -12,7 +12,7 @@ func TestGutterGame(t *testing.T) {
 	}
 }
 
-// A Gutter Game will always return a score of 0
+// Knock down one pin each roll, will always return a score of 20
 func TestOnePinAtATime(t *testing.T) {
 	game := BowlingGame{}
 	PlayAGame(&game, 20, 1)
