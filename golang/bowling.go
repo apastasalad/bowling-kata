@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 const frames = 10
 
 type BowlingGame struct {
@@ -21,10 +23,10 @@ func (game *BowlingGame) Score() int {
 
 	for i := 0; i < frames; i++ {
 		if DidWeRollAFourBagger(game, frameIndex) {
-			score += AwardAFourBaggerBonus(game, frameIndex)
+			score += AwardAFourBaggerBonus()
 			frameIndex += 2
 		} else if DidWeRollATurkey(game, frameIndex) {
-			score += AwardATurkeyBonus(game, frameIndex)
+			score += AwardATurkeyBonus()
 			frameIndex += 2
 		} else if DidWeRollADouble(game, frameIndex) {
 			score += AwardADoubleBonus(game, frameIndex)
@@ -43,13 +45,20 @@ func (game *BowlingGame) Score() int {
 
 	// count the last roll if it's awarded
 	score += game.rolls[20]
+	fmt.Printf("%v, ", game.rolls)
 
 	return score
 }
 
 // Look at the frame and determine if a spare was rolled
 func DidWeRollASpare(game *BowlingGame, frameIndex int) bool {
-	return game.rolls[frameIndex]+game.rolls[frameIndex+1] == 10
+	status := false
+
+	if frameIndex < 19 {
+		status = game.rolls[frameIndex]+game.rolls[frameIndex+1] == 10
+	}
+
+	return status
 }
 
 // Look at the frame and determine if a strike was rolled
@@ -59,17 +68,30 @@ func DidWeRollAStrike(game *BowlingGame, frameIndex int) bool {
 
 // Look at the frames and determine if a double was rolled
 func DidWeRollADouble(game *BowlingGame, frameIndex int) bool {
-	return game.rolls[frameIndex] == 10 && game.rolls[frameIndex+2] == 10
+	status := false
+	if frameIndex < 18 {
+		status = game.rolls[frameIndex] == 10 && game.rolls[frameIndex+2] == 10
+	}
+	return status
 }
 
 // Look at the frames and determine if a Turkey was rolled
 func DidWeRollATurkey(game *BowlingGame, frameIndex int) bool {
-	return game.rolls[frameIndex] == 10 && game.rolls[frameIndex+2] == 10 && game.rolls[frameIndex+3] == 10
+	status := false
+	if frameIndex < 16 {
+		status = game.rolls[frameIndex] == 10 && game.rolls[frameIndex+2] == 10 && game.rolls[frameIndex+4] == 10
+	}
+	return status
 }
 
 // Look at the frames and determine if a Four Bagger was rolled
 func DidWeRollAFourBagger(game *BowlingGame, frameIndex int) bool {
-	return game.rolls[frameIndex] == 10 && game.rolls[frameIndex+2] == 10 && game.rolls[frameIndex+4] == 10 && game.rolls[frameIndex+6] == 10
+
+	status := false
+	if frameIndex < 14 {
+		status = game.rolls[frameIndex] == 10 && game.rolls[frameIndex+2] == 10 && game.rolls[frameIndex+3] == 10
+	}
+	return status
 }
 
 // 10 points + the number of pins you knock down for your first attempt at the next frame.
@@ -114,13 +136,13 @@ func AwardADoubleBonus(game *BowlingGame, frameIndex int) int {
 }
 
 //  30 point bonus
-func AwardATurkeyBonus(game *BowlingGame, frameIndex int) int {
+func AwardATurkeyBonus() int {
 	turkeyBonus := 30
 	return turkeyBonus
 }
 
 //  30 point bonus
-func AwardAFourBaggerBonus(game *BowlingGame, frameIndex int) int {
+func AwardAFourBaggerBonus() int {
 	fourBaggerBonus := 30
 	return fourBaggerBonus
 }
@@ -129,10 +151,17 @@ func AwardAFourBaggerBonus(game *BowlingGame, frameIndex int) int {
 func (game *BowlingGame) Roll(pins int) {
 	// Record the pins knocked down for this roll
 	// if we get a strike, record a 0 and move to the next frame
-	game.rolls[game.currentRolls] = pins
-	if pins < 10 {
-		game.currentRolls++
+
+	// record the first 9 frames differently to the final frame
+	if game.currentRolls < 19 {
+		game.rolls[game.currentRolls] = pins
+		if pins < 10 {
+			game.currentRolls++
+		} else {
+			game.currentRolls += 2
+		}
 	} else {
-		game.currentRolls += 2
+		game.rolls[game.currentRolls] = pins
+		game.currentRolls++
 	}
 }

@@ -109,7 +109,13 @@ func TestFourBagger(t *testing.T) {
 
 //  Strikes in each of the first nine frames, and three in the tenth (score = 300)
 func TestPerfectGame(t *testing.T) {
-	t.Fail()
+	game := BowlingGame{}
+	LetsRoll(&game, 11, 10)
+
+	if game.Score() != 300 {
+		t.Errorf("Perfect: %d, want: %d.", game.Score(), 300)
+	}
+	// t.Fail()
 }
 
 // Roll the ball and knock down some pins
